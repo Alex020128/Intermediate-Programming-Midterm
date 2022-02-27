@@ -11,14 +11,18 @@ public class enemySpawnUpDown : MonoBehaviour
     [SerializeField]
     private GameObject prefabRangeEnemy = null;
     [SerializeField]
-    private float spawnPerSecond = 2f;
+    private float spawnPerSecond = 5f;
     [SerializeField]
     private float spawnTimer;
     [SerializeField]
     private List<GameObject> enemies = new List<GameObject>();
 
+    private int enemySize;
+
     private void Start()
     {
+        enemySize = 30;
+
         //Spawn a pool of enemies at top of the screen
         for (int i = 0; i < 10; i++)
         {
@@ -64,7 +68,7 @@ public class enemySpawnUpDown : MonoBehaviour
     void Update()
     {
         spawnTimer -= Time.deltaTime;
-        while (spawnTimer < 0.0f && gameManager.Instance.death == false)
+        while (spawnTimer < 0.0f && gameManager.Instance.death == false && enemies.Count < enemySize)
         {
             spawnTimer += spawnPerSecond;
             

@@ -8,11 +8,15 @@ public class meleeEnemyMovement : MonoBehaviour
 
     public float moveSpeed = 2;
 
+    public float health;
+
 
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player").transform;
+
+        health = 30;
     }
 
     // Update is called once per frame
