@@ -17,6 +17,8 @@ public class playerMovement : MonoBehaviour
         moveSpeed = 5.0f;
     }
 
+    public float health;
+
 
     // Start is called before the first frame update
     void Start()

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class rangeEnemyMovement : MonoBehaviour
 {
@@ -70,6 +71,18 @@ public class rangeEnemyMovement : MonoBehaviour
         }
     }
 
+    public void OnCollisionStay2D(Collision2D collision)
+    {
+        //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
+        if (collision.collider.gameObject.tag == "Player" && gameManager.Instance.invisible == false)
+        {
+            gameManager.Instance.playerHealth -= 1;
+            //explode.Emit(7);
+            Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
+            gameManager.Instance.invisibleTime = 0;
+            gameManager.Instance.invisible = true;
+        }
+    }
 
     // Update is called once per frame
     void Update()

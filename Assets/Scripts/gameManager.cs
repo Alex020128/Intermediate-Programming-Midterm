@@ -14,16 +14,32 @@ public class gameManager : Singleton<gameManager>
 
     public bool death = false;
 
+    public bool invisible = false;
+
+    public float invisibleTime;
+
     void Awake()
     {
-        playerHealth = 10;
+        playerHealth = 100;
         playerTime = 0;
         name = "GameManager"; // Set name of object
         health = GetComponent<TMP_Text>();
+
+        invisibleTime = 0;
     }
 
-    /*void Update()
+    void Update()
     {
+        if(invisible == true)
+        {
+            invisibleTime += Time.deltaTime;
+            if (invisibleTime >= 1)
+            {
+                invisible = false;
+            }
+        }
+        
+        
         //Display health
         if (death == false)
         {
@@ -40,8 +56,8 @@ public class gameManager : Singleton<gameManager>
             //Reload scene
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                SceneManager.LoadScene("Spawner");
+                SceneManager.LoadScene("Map");
             }
         }
-    }*/
+    }
 }
