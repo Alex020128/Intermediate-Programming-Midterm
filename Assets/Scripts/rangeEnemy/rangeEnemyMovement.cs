@@ -20,6 +20,9 @@ public class rangeEnemyMovement : MonoBehaviour
     [SerializeField]
     private GameObject[] bullets = new GameObject[5];
 
+
+    public float health;
+
     //public AudioSource audioSource;
 
     //public AudioClip hurtSound;
@@ -37,9 +40,9 @@ public class rangeEnemyMovement : MonoBehaviour
             bullets[i] = newBullet;
             bullets[i].SetActive(false);
         }
+
+        health = timeManager.Instance.rangeEnemyHealth;
     }
-
-
 
     private void OnDrawGizmosSelected()
     {
@@ -74,14 +77,26 @@ public class rangeEnemyMovement : MonoBehaviour
     public void OnCollisionStay2D(Collision2D collision)
     {
         //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
-        if (collision.collider.gameObject.tag == "Player" && gameManager.Instance.invisible == false)
+        if (collision.collider.gameObject.tag == "Player" && gameManager.Instance.invinsible == false)
         {
             gameManager.Instance.playerHealth -= 1;
             //explode.Emit(7);
             Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
-            gameManager.Instance.invisibleTime = 0;
-            gameManager.Instance.invisible = true;
+            gameManager.Instance.invinsibleTime = 0;
+            gameManager.Instance.invinsible = true;
         }
+    }
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
+        if (collision.gameObject.tag == "Bullet")
+        {
+            this.health -= timeManager.Instance.bulletDamage;
+            //explode.Emit(7);
+            Camera.main.transform.DOShakePosition(0.25f, new Vector3(0.25f, 0.25f, 0));
+            collision.gameObject.SetActive(false);
+        }
+
     }
 
     // Update is called once per frame
@@ -101,5 +116,9 @@ public class rangeEnemyMovement : MonoBehaviour
             nextFireTime = Time.time + fireRate;
         }
 
+        if (health <= 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 }

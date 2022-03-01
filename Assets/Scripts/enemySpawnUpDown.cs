@@ -17,12 +17,10 @@ public class enemySpawnUpDown : MonoBehaviour
     [SerializeField]
     private List<GameObject> enemies = new List<GameObject>();
 
-    private int enemySize;
+    private float enemySize;
 
     private void Start()
     {
-        enemySize = 30;
-
         //Spawn a pool of enemies at top of the screen
         for (int i = 0; i < 10; i++)
         {
@@ -74,5 +72,15 @@ public class enemySpawnUpDown : MonoBehaviour
             
             spawnEnemy();
         }
+
+        for(int i = 0; i< enemies.Count; i++)
+        {
+            if (enemies[i] == null)
+            {
+                enemies.Remove(enemies[i]);
+            }
+        }
+
+        enemySize = timeManager.Instance.spawnSize;
     }
 }
