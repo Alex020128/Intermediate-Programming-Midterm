@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1942308759233830056}
   - component: {fileID: 8068647055467546716}
   - component: {fileID: 7986022854204123735}
+  - component: {fileID: -6263491952001187675}
   m_Layer: 0
   m_Name: enemyBullet
   m_TagString: enemyBullet
@@ -132,3 +133,24 @@ MonoBehaviour:
   moveSpeed: 10
   targetRotation: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
+--- !u!50 &-6263491952001187675
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707287775270816547}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4

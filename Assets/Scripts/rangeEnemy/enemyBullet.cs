@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class enemyBullet : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class enemyBullet : MonoBehaviour
 
     public Transform player;
 
+
     private void Awake()
     {
         lifeTimer = 3.0f;
@@ -22,6 +24,21 @@ public class enemyBullet : MonoBehaviour
     private void Start()
     {
         player = GameObject.Find("Player").transform;
+    }
+
+    public void OnTriggerEnter2D(Collider2D collision)
+    {
+        //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
+        if (collision.gameObject.tag == "playerArea" && gameManager.Instance.invisible == false)
+        {
+            gameManager.Instance.playerHealth -= 1;
+            //explode.Emit(7);
+            Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
+            gameManager.Instance.invisibleTime = 0;
+            gameManager.Instance.invisible = true;
+            this.gameObject.SetActive(false);
+        }
+
     }
 
     // Update is called once per frame
