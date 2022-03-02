@@ -36,8 +36,8 @@ public class Bullet : MonoBehaviour
                 transform.Translate(Vector3.right * moveSpeed * Time.deltaTime);
                 transform.parent = null;
             if (lifeTimer <= 0)
-                {
-                    this.gameObject.SetActive(false);
+                {    
+                this.gameObject.SetActive(false);
                 }
             }
             else

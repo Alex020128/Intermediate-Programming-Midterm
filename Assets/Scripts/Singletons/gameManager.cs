@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class gameManager : Singleton<gameManager>
 {
-    public int playerHealth;
+    [SerializeField]
+    private GameObject prefabToSpawn = null;
 
+    public int playerHealth;
 
     public TMP_Text health;
 
@@ -17,6 +19,16 @@ public class gameManager : Singleton<gameManager>
 
     public float invinsibleTime;
 
+    public float bulletDamage;
+    public float missileDamage;
+
+    public float bulletDamageEXP;
+    public float bulletAmountEXP;
+
+    public float bulletDamageEXPBar;
+    public float bulletAmountEXPBar;
+
+
     void Awake()
     {
         playerHealth = 100;
@@ -24,6 +36,14 @@ public class gameManager : Singleton<gameManager>
         health = GetComponent<TMP_Text>();
 
         invinsibleTime = 0;
+
+        bulletDamage = 1;
+
+        bulletDamageEXP = 0;
+        bulletAmountEXP = 0;
+
+        bulletDamageEXPBar = 1;
+        bulletAmountEXPBar = 1;
     }
 
     void Update()
@@ -37,7 +57,6 @@ public class gameManager : Singleton<gameManager>
             }
         }
 
-
         //Display health
         if (death == false)
         {
@@ -49,6 +68,29 @@ public class gameManager : Singleton<gameManager>
         {
             //Display total time lasted and instruction for restart
             death = true;
+        }
+
+        if(playerHealth > 100)
+        {
+            playerHealth = 100;
+        }
+
+        missileDamage = Mathf.Floor(0.5f * (bulletDamage * GameObject.Find("lmbBullet").GetComponent<bulletSpawner>().Bullets.Count));
+
+        if (bulletDamageEXP == bulletDamageEXPBar)
+        {
+            bulletDamage += 1;
+            bulletDamageEXP = 0;
+            bulletDamageEXPBar += 1;
+        }
+
+        if (bulletAmountEXP == bulletAmountEXPBar)
+        {
+            GameObject newBullet = Instantiate(prefabToSpawn, GameObject.Find("lmbBullet").transform.position, Quaternion.identity, GameObject.Find("lmbBullet").transform);
+            GameObject.Find("lmbBullet").GetComponent<bulletSpawner>().Bullets.Add(newBullet);
+            newBullet.SetActive(false);
+            bulletAmountEXP = 0;
+            bulletAmountEXPBar += 1;
         }
     }
 }

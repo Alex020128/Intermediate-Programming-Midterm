@@ -20,8 +20,16 @@ public class rangeEnemyMovement : MonoBehaviour
     [SerializeField]
     private GameObject[] bullets = new GameObject[5];
 
-
     public float health;
+
+    private bool bomb;
+
+    [SerializeField]
+    private GameObject prefabAmountBuff = null;
+    [SerializeField]
+    private GameObject prefabDamageBuff = null;
+    [SerializeField]
+    private GameObject prefabHealthBuff = null;
 
     //public AudioSource audioSource;
 
@@ -42,6 +50,8 @@ public class rangeEnemyMovement : MonoBehaviour
         }
 
         health = timeManager.Instance.rangeEnemyHealth;
+
+        bomb = false;
     }
 
     private void OnDrawGizmosSelected()
@@ -91,10 +101,18 @@ public class rangeEnemyMovement : MonoBehaviour
         //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
         if (collision.gameObject.tag == "Bullet")
         {
-            this.health -= timeManager.Instance.bulletDamage;
+            this.health -= gameManager.Instance.bulletDamage;
             //explode.Emit(7);
             Camera.main.transform.DOShakePosition(0.25f, new Vector3(0.25f, 0.25f, 0));
             collision.gameObject.SetActive(false);
+        }
+
+        //Decrease health, emit particle, trigger sreenshake when gets hit by missiles
+        if (collision.gameObject.tag == "Missile" && bomb == false)
+        {
+            this.health -= gameManager.Instance.missileDamage;
+            //explode.Emit(7);
+            bomb = true;
         }
 
     }
@@ -103,6 +121,7 @@ public class rangeEnemyMovement : MonoBehaviour
     void Update()
     {
 
+        bomb = false;
         //string clipName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
 
         float distanceFromPlayer = Vector2.Distance(player.position, transform.position);
@@ -118,7 +137,26 @@ public class rangeEnemyMovement : MonoBehaviour
 
         if (health <= 0)
         {
-            Destroy(this.gameObject);
+            int chance = Random.Range(0, 100);
+            if (chance <= 10)
+            {
+                Instantiate(prefabAmountBuff, transform.position, Quaternion.identity);
+                Destroy(this.gameObject);
+            }
+            else if (chance > 10 && chance <= 20)
+            {
+                Instantiate(prefabDamageBuff, transform.position, Quaternion.identity);
+                Destroy(this.gameObject);
+            }
+            else if (chance > 20 && chance <= 45)
+            {
+                Instantiate(prefabHealthBuff, transform.position, Quaternion.identity);
+                Destroy(this.gameObject);
+            }
+            else
+            {
+                Destroy(this.gameObject);
+            }
         }
     }
 }

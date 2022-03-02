@@ -9,6 +9,10 @@ TagManager:
   - enemyBullet
   - playerArea
   - enemyArea
+  - amountBuff
+  - damageBuff
+  - healthBuff
+  - Missile
   layers:
   - Default
   - TransparentFX

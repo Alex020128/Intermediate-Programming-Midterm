@@ -157,6 +157,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 0
   rb: {fileID: 0}
+  shootBullet: 0
+  shootMissile: 0
   health: 0
 --- !u!212 &76157085
 SpriteRenderer:
@@ -328,8 +330,8 @@ MonoBehaviour:
   time: {fileID: 0}
   meleeEnemyHealth: 0
   rangeEnemyHealth: 0
-  bulletDamage: 0
   spawnSize: 0
+  spawnFrequency: 0
 --- !u!114 &338594340
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,6 +429,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 338594337}
   m_CullTransparentMesh: 1
+--- !u!1 &401212675
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 401212677}
+  - component: {fileID: 401212676}
+  m_Layer: 0
+  m_Name: rmbMissile
+  m_TagString: Bullet
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &401212676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401212675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0ab3b5ee64e00408137e1056957b41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabToSpawn: {fileID: 4317615752987350339, guid: 350c5a8018dcfeb4e8decd474234a06e, type: 3}
+  spawnPerSecond: 10
+  spawnTimer: 0
+  missiles: []
+--- !u!4 &401212677
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 401212675}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &461326058
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,7 +605,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
@@ -805,11 +855,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e3fca3195e50fb4bb6bf6dbc230ffb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabToSpawn: {fileID: 3906781199631623636, guid: a822efce30059164e97f84182541419c, type: 3}
   playerHealth: 0
   health: {fileID: 0}
   death: 0
   invinsible: 0
   invinsibleTime: 0
+  bulletDamage: 0
+  missileDamage: 0
+  bulletDamageEXP: 0
+  bulletAmountEXP: 0
+  bulletDamageEXPBar: 0
+  bulletAmountEXPBar: 0
 --- !u!1 &1002662527
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,7 +932,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1277113267
 GameObject:
@@ -922,19 +979,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabToSpawn: {fileID: 3906781199631623636, guid: a822efce30059164e97f84182541419c, type: 3}
-  spawnPerSecond: 0.5
+  spawnPerSecond: 0.1
   spawnTimer: 0
-  bullets:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  bullets: []
+  bulletDamage: 0
+  missileDamage: 0
 --- !u!1 &1794976170
 GameObject:
   m_ObjectHideFlags: 0
@@ -1030,7 +1079,7 @@ RectTransform:
   - {fileID: 683658564}
   - {fileID: 338594338}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

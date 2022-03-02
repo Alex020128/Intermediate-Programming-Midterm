@@ -11,7 +11,7 @@ public class enemySpawnUpDown : MonoBehaviour
     [SerializeField]
     private GameObject prefabRangeEnemy = null;
     [SerializeField]
-    private float spawnPerSecond = 5f;
+    public float spawnPerSecond;
     [SerializeField]
     private float spawnTimer;
     [SerializeField]
@@ -41,7 +41,9 @@ public class enemySpawnUpDown : MonoBehaviour
             GameObject newEnemy = Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity, this.gameObject.transform);
             enemies.Add(newEnemy);
         }
-    }
+
+        spawnPerSecond = 5f;
+}
 
     public void spawnEnemy()
     {
@@ -81,6 +83,7 @@ public class enemySpawnUpDown : MonoBehaviour
             }
         }
 
+        spawnPerSecond = timeManager.Instance.spawnFrequency;
         enemySize = timeManager.Instance.spawnSize;
     }
 }

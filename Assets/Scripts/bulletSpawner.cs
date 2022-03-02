@@ -7,19 +7,29 @@ public class bulletSpawner : MonoBehaviour
     [SerializeField]
     private GameObject prefabToSpawn = null;
     [SerializeField]
-    private float spawnPerSecond = 0.5f;
+    private float spawnPerSecond = 0.1f;
     [SerializeField]
     private float spawnTimer;
     [SerializeField]
-    private GameObject[] bullets = new GameObject[10];
+    private List<GameObject> bullets = new List<GameObject>();
+    public List<GameObject> Bullets
+    {
+        get
+        {
+            return bullets;
+        }
+    }
+
+    public float bulletDamage;
+    public float missileDamage;
 
     private void Start()
     {
         //Spawn a pool of bullets at top of the screen
-        for (int i = 0; i < bullets.Length; i++)
+        for (int i = 0; i < 5; i++)
         {
             GameObject newBullet = Instantiate(prefabToSpawn, transform.position, Quaternion.identity, this.gameObject.transform);
-            bullets[i] = newBullet;
+            bullets.Add(newBullet);
             bullets[i].SetActive(false);
         }
     }
@@ -27,7 +37,7 @@ public class bulletSpawner : MonoBehaviour
     public void shootBullet()
     {
         //let one of the waiting bullets to be active
-        for (int i = 0; i < bullets.Length; i++)
+        for (int i = 0; i < bullets.Count; i++)
         {
             if (!bullets[i].activeInHierarchy)
             {
@@ -46,6 +56,8 @@ public class bulletSpawner : MonoBehaviour
         while (spawnTimer < 0.0f && gameManager.Instance.death == false)
         {
             spawnTimer += spawnPerSecond;
+
+            GameObject.Find("Player").GetComponent<playerMovement>().shootBullet = false;
         }
 
         transform.position = GameObject.Find("Player").transform.position;

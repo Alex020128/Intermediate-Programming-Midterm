@@ -13,9 +13,8 @@ public class timeManager : Singleton<timeManager>
     public float meleeEnemyHealth;
     public float rangeEnemyHealth;
 
-    public float bulletDamage;
-
     public float spawnSize;
+    public float spawnFrequency;
 
     void Awake()
     {
@@ -26,9 +25,8 @@ public class timeManager : Singleton<timeManager>
         meleeEnemyHealth = 3;
         rangeEnemyHealth = 2;
 
-        bulletDamage = 1;
-
         spawnSize = 30;
+        spawnFrequency = 5;
     }
 
     // Update is called once per frame
@@ -54,17 +52,17 @@ public class timeManager : Singleton<timeManager>
         //Increase the enemy stats
         if (Mathf.Floor(playerTime) % 20 == 0 && Mathf.Floor(playerTime) != 0)
         {
+            //increases the enemy health stats
             meleeEnemyHealth = 3 * Mathf.Ceil(playerTime / 20);
             rangeEnemyHealth = 2 * Mathf.Ceil(playerTime / 20);
 
-
-            spawnSize = 30 + 10 * Mathf.Ceil(playerTime / 20);
-        }
-
-        //Increase the player stats
-        if (Mathf.Floor(playerTime) % 30 == 0 && Mathf.Floor(playerTime) != 0)
-        {
-            bulletDamage = 1 * Mathf.Ceil(playerTime / 30);
+            //increases the maximum enemy size and the spawn frequency
+            spawnSize = 30 + 10 * Mathf.Floor(playerTime / 20);
+            spawnFrequency = 5 - 0.5f * Mathf.Floor(playerTime / 20);
+            if(spawnFrequency <= 0)
+            {
+                spawnFrequency = 0.5f;
+            }
         }
     }
 }

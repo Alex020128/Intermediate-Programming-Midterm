@@ -224,6 +224,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   health: 0
+  prefabAmountBuff: {fileID: 4489983143394519680, guid: 519c150e897fbf54c880eadc68776872, type: 3}
+  prefabDamageBuff: {fileID: 1773514298992122374, guid: e98aa3b4abf5509479bc636434b923d6, type: 3}
+  prefabHealthBuff: {fileID: 7179509165591729420, guid: f590cb0a741f10542b1312d968994c00, type: 3}
 --- !u!61 &2252189668145676900
 BoxCollider2D:
   m_ObjectHideFlags: 0
