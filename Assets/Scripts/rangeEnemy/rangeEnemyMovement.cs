@@ -138,17 +138,17 @@ public class rangeEnemyMovement : MonoBehaviour
         if (health <= 0)
         {
             int chance = Random.Range(0, 100);
-            if (chance <= 10)
+            if (chance <= 15)
             {
                 Instantiate(prefabAmountBuff, transform.position, Quaternion.identity);
                 Destroy(this.gameObject);
             }
-            else if (chance > 10 && chance <= 20)
+            else if (chance > 15 && chance <= 30)
             {
                 Instantiate(prefabDamageBuff, transform.position, Quaternion.identity);
                 Destroy(this.gameObject);
             }
-            else if (chance > 20 && chance <= 45)
+            else if (chance > 30 && chance <= 50)
             {
                 Instantiate(prefabHealthBuff, transform.position, Quaternion.identity);
                 Destroy(this.gameObject);

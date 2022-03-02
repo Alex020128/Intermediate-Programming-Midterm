@@ -68,6 +68,22 @@ public class playerMovement : MonoBehaviour
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
+        if(transform.position.x <= -40f)
+        {
+            transform.position = new Vector2(-40f, transform.position.y);
+        }else if (transform.position.x >= 40f)
+        {
+            transform.position = new Vector2(40f, transform.position.y);
+        }
+
+        if (transform.position.y <= -40f)
+        {
+            transform.position = new Vector2(transform.position.x, -40f);
+        }else if (transform.position.y >= 40f)
+        {
+            transform.position = new Vector2(transform.position.x, 40f);
+        }
+
         rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
 
         if (Input.GetMouseButton(0) && shootBullet == false)

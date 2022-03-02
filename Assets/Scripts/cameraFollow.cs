@@ -27,8 +27,8 @@ public class cameraFollow : MonoBehaviour
         Vector2 targetPos = player.position;
         Vector2 smoothPos = Vector2.Lerp(transform.position, targetPos, followSpeed * Time.deltaTime);
 
-        smoothPos.x = Mathf.Clamp(smoothPos.x,-20, 20);
-        smoothPos.y = Mathf.Clamp(smoothPos.y, -20, 20);
+        smoothPos.x = Mathf.Clamp(smoothPos.x,-32.15f, 32.15f);
+        smoothPos.y = Mathf.Clamp(smoothPos.y, -35, 35);
         transform.position = new Vector3(smoothPos.x, smoothPos.y + yPos, -15.0f);
     }
 }
