@@ -14,11 +14,15 @@ public class playerMovement : MonoBehaviour
     public bool shootBullet;
     public bool shootMissile;
 
+    public Animator animator;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
 
         moveSpeed = 5.0f;
+
+        animator = GetComponent<Animator>();
     }
 
     public float health;
@@ -68,7 +72,17 @@ public class playerMovement : MonoBehaviour
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
 
-        if(transform.position.x <= -40f)
+        if (Input.GetAxisRaw("Horizontal") == 1 || Input.GetAxisRaw("Horizontal") == -1 || Input.GetAxisRaw("Vertical") == 1 || Input.GetAxisRaw("Vertical") == -1)
+        {
+            animator.SetFloat("lastMoveX", Input.GetAxisRaw("Horizontal"));
+            animator.SetFloat("lastMoveY", Input.GetAxisRaw("Vertical"));
+        }
+
+        animator.SetFloat("Horizontal", movement.x);
+        animator.SetFloat("Vertical", movement.y);
+        animator.SetFloat("Speed", movement.sqrMagnitude);
+
+        if (transform.position.x <= -40f)
         {
             transform.position = new Vector2(-40f, transform.position.y);
         }else if (transform.position.x >= 40f)
