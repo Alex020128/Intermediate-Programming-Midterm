@@ -31,6 +31,12 @@ public class rangeEnemyMovement : MonoBehaviour
 
     private ParticleSystem particle;
 
+    private Animator animator;
+    
+    public AudioSource audioSource;
+
+    public AudioClip hurtSound;
+
     Coroutine deathCoroutine;
 
     [SerializeField]
@@ -66,6 +72,8 @@ public class rangeEnemyMovement : MonoBehaviour
         particle = GetComponent<ParticleSystem>();
         pc = GetComponent<PolygonCollider2D>();
         sr = GetComponent<SpriteRenderer>();
+        animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         pc.enabled = true;
         sr.enabled = true;
@@ -79,9 +87,9 @@ public class rangeEnemyMovement : MonoBehaviour
 
     public void hurtSFX()
     {
-        //audioSource.Stop();
-        //audioSource.clip = hurtSound;
-        //audioSource.Play();
+        audioSource.Stop();
+        audioSource.clip = hurtSound;
+        audioSource.Play();
     }
 
 
@@ -119,6 +127,7 @@ public class rangeEnemyMovement : MonoBehaviour
         if (collision.gameObject.tag == "Bullet")
         {
             this.health -= gameManager.Instance.bulletDamage;
+            animator.SetTrigger("Hurt");
             particle.Emit(5);
             Camera.main.transform.DOShakePosition(0.25f, new Vector3(0.25f, 0.25f, 0));
             collision.gameObject.SetActive(false);
@@ -128,6 +137,7 @@ public class rangeEnemyMovement : MonoBehaviour
         if (collision.gameObject.tag == "Missile" && bomb == false)
         {
             this.health -= gameManager.Instance.missileDamage;
+            animator.SetTrigger("Hurt");
             particle.Emit(5);
             bomb = true;
         }
