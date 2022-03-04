@@ -28,7 +28,6 @@ public class gameManager : Singleton<gameManager>
     public float bulletDamageEXPBar;
     public float bulletAmountEXPBar;
 
-
     void Awake()
     {
         playerHealth = 100;

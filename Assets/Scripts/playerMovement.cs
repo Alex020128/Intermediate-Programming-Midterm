@@ -16,13 +16,24 @@ public class playerMovement : MonoBehaviour
 
     public Animator animator;
 
-    private void Awake()
+    private ParticleSystem particle;
+    public ParticleSystem Particle
+    {
+        get
+        {
+            return particle;
+        }
+    }
+
+private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
 
         moveSpeed = 5.0f;
 
         animator = GetComponent<Animator>();
+
+        particle = GetComponent<ParticleSystem>();
     }
 
     public float health;
@@ -36,7 +47,6 @@ public class playerMovement : MonoBehaviour
     public void OnTriggerStay2D(Collider2D collision)
     {
         //Different effcts from the buffs
-
         //Increase the maximum bullet amount with amountBuff
         if (collision.gameObject.tag == "amountBuff")
         {

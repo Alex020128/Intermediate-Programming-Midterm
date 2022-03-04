@@ -32,7 +32,7 @@ public class enemyBullet : MonoBehaviour
         if (collision.gameObject.tag == "playerArea" && gameManager.Instance.invinsible == false)
         {
             gameManager.Instance.playerHealth -= 1;
-            //explode.Emit(7);
+            GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
             Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
             gameManager.Instance.invinsibleTime = 0;
             gameManager.Instance.invinsible = true;

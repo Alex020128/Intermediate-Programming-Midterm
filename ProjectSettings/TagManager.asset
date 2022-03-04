@@ -50,12 +50,12 @@ TagManager:
   - name: Ground
     uniqueID: 3005503725
     locked: 0
-  - name: Projectle
-    uniqueID: 3305316919
-    locked: 0
   - name: Buff
     uniqueID: 2072260441
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Projectle
+    uniqueID: 3305316919
     locked: 0
