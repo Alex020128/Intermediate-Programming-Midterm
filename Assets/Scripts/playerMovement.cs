@@ -16,6 +16,10 @@ public class playerMovement : MonoBehaviour
 
     public Animator animator;
 
+    public AudioSource audioSource;
+
+    public AudioClip hurtSound;
+
     private ParticleSystem particle;
     public ParticleSystem Particle
     {
@@ -34,6 +38,8 @@ private void Awake()
         animator = GetComponent<Animator>();
 
         particle = GetComponent<ParticleSystem>();
+
+        audioSource = GetComponent<AudioSource>();
     }
 
     public float health;
@@ -74,6 +80,12 @@ private void Awake()
 
             Destroy(collision.gameObject);
         }
+    }
+    public void hurtSFX()
+    {
+        audioSource.Stop();
+        audioSource.clip = hurtSound;
+        audioSource.Play();
     }
 
     // Update is called once per frame

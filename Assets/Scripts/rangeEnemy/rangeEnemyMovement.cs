@@ -92,7 +92,6 @@ public class rangeEnemyMovement : MonoBehaviour
         audioSource.Play();
     }
 
-
     public void shootBullet()
     {
         //let one of the waiting bullets to be active
@@ -116,6 +115,7 @@ public class rangeEnemyMovement : MonoBehaviour
         {
             gameManager.Instance.playerHealth -= 1;
             GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
+            GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
             gameManager.Instance.invinsibleTime = 0;
             gameManager.Instance.invinsible = true;

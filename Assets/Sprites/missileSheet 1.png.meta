@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 3dc89d27558e4504a9be37d592cd3c73
+guid: 73e20292e7e3d414ebdacf73c5535efa
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,64 +104,64 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: missileSheet_0
+      name: missileSheet 1_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 96
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 56
+      alignment: 9
+      pivot: {x: 0.50000006, y: 0.43}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 409d064bdadfb434db3c5db924c427d1
-      internalID: -311114534
+      spriteID: afe37e502dc753d4185a831f7647f4c3
+      internalID: 1683071498
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missileSheet_1
+      name: missileSheet 1_1
       rect:
         serializedVersion: 2
         x: 96
         y: 0
         width: 96
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 56
+      alignment: 9
+      pivot: {x: 0.5, y: 0.43}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c026c63d294798548a35e9c996b8729d
-      internalID: 1177231343
+      spriteID: f50b85bba65c10c40937a0cb9b95f766
+      internalID: 936498504
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: missileSheet_2
+      name: missileSheet 1_2
       rect:
         serializedVersion: 2
         x: 192
         y: 0
         width: 96
-        height: 48
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 56
+      alignment: 9
+      pivot: {x: 0.5, y: 0.43}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7912950852661b242b77ded9b336c456
-      internalID: 237437967
+      spriteID: c2746873e2eece74cbd857dadaf54adc
+      internalID: 1781025267
       vertices: []
       indices: 
       edges: []
@@ -177,9 +177,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      missileSheet_0: -311114534
-      missileSheet_1: 1177231343
-      missileSheet_2: 237437967
+      missileSheet 1_1: 936498504
+      missileSheet 1_2: 1781025267
+      missileSheet 1_0: 1683071498
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

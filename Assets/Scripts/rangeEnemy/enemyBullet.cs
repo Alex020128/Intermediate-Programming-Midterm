@@ -16,6 +16,7 @@ public class enemyBullet : MonoBehaviour
     public Transform player;
 
 
+
     private void Awake()
     {
         lifeTimer = 3.0f;
@@ -33,6 +34,7 @@ public class enemyBullet : MonoBehaviour
         {
             gameManager.Instance.playerHealth -= 1;
             GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
+            GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
             gameManager.Instance.invinsibleTime = 0;
             gameManager.Instance.invinsible = true;

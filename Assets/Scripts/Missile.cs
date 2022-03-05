@@ -12,16 +12,27 @@ public class Missile : MonoBehaviour
 
     private Animator animator;
 
+    public AudioSource audioSource;
+
+    public AudioClip missileSound;
+
     private void Awake()
     {
         lifeTimer = 2.0f;
         pc = GetComponent<PolygonCollider2D>();
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     private void Start()
     {
         pc.enabled = false;
+    }
+    public void missileSFX()
+    {
+        audioSource.Stop();
+        audioSource.clip = missileSound;
+        audioSource.Play();
     }
 
     // Update is called once per frame
@@ -32,7 +43,7 @@ public class Missile : MonoBehaviour
         if (lifeTimer <= 0)
         {
             this.gameObject.SetActive(false);
-        }else if(lifeTimer <= 0.5f)
+        }else if(lifeTimer <= 1f)
         {
             pc.enabled = true;
             animator.SetTrigger("Explode");

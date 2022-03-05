@@ -12,6 +12,10 @@ public class bulletSpawner : MonoBehaviour
     private float spawnTimer;
     [SerializeField]
     private List<GameObject> bullets = new List<GameObject>();
+
+    public AudioSource audioSource;
+
+    public AudioClip bulletSound;
     public List<GameObject> Bullets
     {
         get
@@ -32,7 +36,17 @@ public class bulletSpawner : MonoBehaviour
             bullets.Add(newBullet);
             bullets[i].SetActive(false);
         }
+
+        audioSource = GetComponent<AudioSource>();
     }
+
+    public void bulletSFX()
+    {
+        audioSource.Stop();
+        audioSource.clip = bulletSound;
+        audioSource.Play();
+    }
+
 
     public void shootBullet()
     {
@@ -41,6 +55,7 @@ public class bulletSpawner : MonoBehaviour
         {
             if (!bullets[i].activeInHierarchy)
             {
+                bulletSFX();
                 bullets[i].SetActive(true);
                 bullets[i].GetComponent<Bullet>().lifeTimer = 3.0f;
                 bullets[i].transform.position = transform.position;

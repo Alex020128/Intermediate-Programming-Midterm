@@ -63,6 +63,7 @@ public class meleeEnemyMovement : MonoBehaviour
         {
             gameManager.Instance.playerHealth -= 2;
             GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
+            GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.5f,new Vector3(0.5f, 0.5f, 0));
             gameManager.Instance.invinsibleTime = 0;
             gameManager.Instance.invinsible = true;
