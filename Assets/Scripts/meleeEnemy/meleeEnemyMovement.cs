@@ -61,12 +61,13 @@ public class meleeEnemyMovement : MonoBehaviour
         //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
         if (collision.collider.gameObject.tag == "Player" && gameManager.Instance.invinsible == false)
         {
-            gameManager.Instance.playerHealth -= 2;
-            GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
-            GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
-            Camera.main.transform.DOShakePosition(0.5f,new Vector3(0.5f, 0.5f, 0));
-            gameManager.Instance.invinsibleTime = 0;
-            gameManager.Instance.invinsible = true;
+           gameManager.Instance.playerHealth -= 2;
+           GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);
+           GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
+           Camera.main.transform.DOShakePosition(0.5f,new Vector3(0.5f, 0.5f, 0));
+           gameManager.Instance.invinsibleTime = 0;
+           scoreManager.Instance.Hit += 1;
+           gameManager.Instance.invinsible = true;
         }
     }
     public void OnTriggerEnter2D(Collider2D collision)
@@ -101,6 +102,7 @@ public class meleeEnemyMovement : MonoBehaviour
     private IEnumerator deathExplode(float wait)
     {
         yield return new WaitForSeconds(wait);
+        scoreManager.Instance.meleeEnemyKills += 1;
         Destroy(this.gameObject);
     }
 

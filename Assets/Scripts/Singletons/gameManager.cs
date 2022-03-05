@@ -19,6 +19,8 @@ public class gameManager : Singleton<gameManager>
 
     public float invinsibleTime;
 
+    public float missileCoolDownTime;
+
     public float bulletDamage;
     public float missileDamage;
 
@@ -35,6 +37,8 @@ public class gameManager : Singleton<gameManager>
         health = GetComponent<TMP_Text>();
 
         invinsibleTime = 0;
+
+        missileCoolDownTime = 10;
 
         bulletDamage = 1;
 
@@ -60,6 +64,9 @@ public class gameManager : Singleton<gameManager>
         if (death == false)
         {
             health.text = "Health: " + playerHealth;
+        } else
+        {
+            health.enabled = false;
         }
 
 
@@ -90,6 +97,7 @@ public class gameManager : Singleton<gameManager>
             newBullet.SetActive(false);
             bulletAmountEXP = 0;
             bulletAmountEXPBar += 1;
+            missileCoolDownTime -= 1;
         }
     }
 }

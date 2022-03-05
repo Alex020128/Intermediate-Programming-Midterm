@@ -118,6 +118,7 @@ public class rangeEnemyMovement : MonoBehaviour
             GameObject.Find("Player").GetComponent<playerMovement>().hurtSFX();
             Camera.main.transform.DOShakePosition(0.5f, new Vector3(0.5f, 0.5f, 0));
             gameManager.Instance.invinsibleTime = 0;
+            scoreManager.Instance.Hit += 1;
             gameManager.Instance.invinsible = true;
         }
     }
@@ -146,6 +147,7 @@ public class rangeEnemyMovement : MonoBehaviour
     private IEnumerator deathExplode(float wait)
     {
         yield return new WaitForSeconds(wait);
+        scoreManager.Instance.rangeEnemyKills += 1;
         Destroy(this.gameObject);
     }
 

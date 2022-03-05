@@ -91,19 +91,27 @@ private void Awake()
     // Update is called once per frame
     void Update()
     {
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-
-        if (Input.GetAxisRaw("Horizontal") == 1 || Input.GetAxisRaw("Horizontal") == -1 || Input.GetAxisRaw("Vertical") == 1 || Input.GetAxisRaw("Vertical") == -1)
+        if(gameManager.Instance.death == false)
         {
-            animator.SetFloat("lastMoveX", Input.GetAxisRaw("Horizontal"));
-            animator.SetFloat("lastMoveY", Input.GetAxisRaw("Vertical"));
+            movement.x = Input.GetAxisRaw("Horizontal");
+            movement.y = Input.GetAxisRaw("Vertical");
+
+            if (Input.GetAxisRaw("Horizontal") == 1 || Input.GetAxisRaw("Horizontal") == -1 || Input.GetAxisRaw("Vertical") == 1 || Input.GetAxisRaw("Vertical") == -1)
+            {
+                animator.SetFloat("lastMoveX", Input.GetAxisRaw("Horizontal"));
+                animator.SetFloat("lastMoveY", Input.GetAxisRaw("Vertical"));
+            }
+
+            animator.SetFloat("Horizontal", movement.x);
+            animator.SetFloat("Vertical", movement.y);
+            animator.SetFloat("Speed", movement.sqrMagnitude);
+
+            rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        } else
+        {
+            animator.SetBool("Death", true);
         }
-
-        animator.SetFloat("Horizontal", movement.x);
-        animator.SetFloat("Vertical", movement.y);
-        animator.SetFloat("Speed", movement.sqrMagnitude);
-
+        
         if (transform.position.x <= -40f)
         {
             transform.position = new Vector2(-40f, transform.position.y);
@@ -120,7 +128,6 @@ private void Awake()
             transform.position = new Vector2(transform.position.x, 40f);
         }
 
-        rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
 
         if (Input.GetMouseButton(0) && shootBullet == false)
         {

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class bulletAmountBar : MonoBehaviour
+public class bulletDamageBar : MonoBehaviour
 {
     public Slider slider;
 
@@ -18,6 +18,11 @@ public class bulletAmountBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        slider.DOValue(gameManager.Instance.playerHealth / 100f, 0.5f);
+        slider.DOValue(gameManager.Instance.bulletDamageEXP / gameManager.Instance.bulletDamageEXPBar, 0.5f);
+        
+        if (gameManager.Instance.death == true)
+        {
+            this.gameObject.SetActive(false);
+        }
     }
 }

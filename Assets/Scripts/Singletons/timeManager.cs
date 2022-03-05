@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.SceneManagement;
 
 public class timeManager : Singleton<timeManager>
 {
@@ -32,21 +31,13 @@ public class timeManager : Singleton<timeManager>
     // Update is called once per frame
     void Update()
     {
-        if (gameManager.Instance.death == true)
-        {
-            //Display total time lasted and instruction for restart
-            time.text = "You lasted: " + Mathf.Round(playerTime) + "s\n\nPress Space to Restart";
-
-            //Reload scene
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                SceneManager.LoadScene("Map");
-            }
-        }
-        else
+        if(gameManager.Instance.death == false)
         {
             playerTime += Time.deltaTime;
-            time.text = "Time: " + Mathf.Round(playerTime) + "s";
+            time.text = "Time: " + Mathf.Round(playerTime) + "s\nEnemy Level: " + Mathf.Ceil(playerTime / 20);
+        } else
+        {
+           time.enabled = false;
         }
 
         //Increase the enemy stats

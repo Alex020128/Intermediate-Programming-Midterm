@@ -53,6 +53,13 @@ public class missileSpawner : MonoBehaviour
 
     void Update()
     {
+        spawnPerSecond = gameManager.Instance.missileCoolDownTime;
+
+        if(spawnPerSecond < 1)
+        {
+            spawnPerSecond = 1;
+        }
+        
         spawnTimer -= Time.deltaTime;
         while (spawnTimer < 0.0f && gameManager.Instance.death == false)
         {
