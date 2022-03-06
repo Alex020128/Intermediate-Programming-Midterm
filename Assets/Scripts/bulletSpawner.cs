@@ -75,6 +75,6 @@ public class bulletSpawner : MonoBehaviour
             GameObject.Find("Player").GetComponent<playerMovement>().shootBullet = false;
         }
 
-        transform.position = GameObject.Find("Player").transform.position;
+        transform.position = new Vector2(GameObject.Find("Player").transform.position.x, GameObject.Find("Player").transform.position.y + 0.4f);
     }
 }

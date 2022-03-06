@@ -111,7 +111,7 @@ public class rangeEnemyMovement : MonoBehaviour
     public void OnCollisionStay2D(Collision2D collision)
     {
         //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
-        if (collision.collider.gameObject.tag == "Player" && gameManager.Instance.invinsible == false)
+        if (collision.collider.gameObject.tag == "Player" && gameManager.Instance.invinsible == false && gameManager.Instance.death == false)
         {
             gameManager.Instance.playerHealth -= 1;
             GameObject.Find("Player").GetComponent<playerMovement>().Particle.Emit(5);

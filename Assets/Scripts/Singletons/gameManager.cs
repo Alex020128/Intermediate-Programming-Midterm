@@ -30,11 +30,16 @@ public class gameManager : Singleton<gameManager>
     public float bulletDamageEXPBar;
     public float bulletAmountEXPBar;
 
+    public AudioSource audioSource;
+
+    public AudioClip musicLoop;
+
     void Awake()
     {
         playerHealth = 100;
         name = "GameManager"; // Set name of object
         health = GetComponent<TMP_Text>();
+        audioSource = GetComponent<AudioSource>();
 
         invinsibleTime = 0;
 
@@ -48,6 +53,13 @@ public class gameManager : Singleton<gameManager>
         bulletDamageEXPBar = 1;
         bulletAmountEXPBar = 1;
     }
+
+    private void Start()
+    {
+        audioSource.clip = musicLoop;
+        audioSource.Play();
+    }
+
 
     void Update()
     {

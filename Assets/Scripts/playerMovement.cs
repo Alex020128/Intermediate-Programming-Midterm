@@ -19,6 +19,8 @@ public class playerMovement : MonoBehaviour
     public AudioSource audioSource;
 
     public AudioClip hurtSound;
+    public AudioClip buffSound;
+    public AudioClip deathSound;
 
     private ParticleSystem particle;
     public ParticleSystem Particle
@@ -49,6 +51,7 @@ private void Awake()
     void Start()
     {
         transform.position = new Vector2(0, 0);
+        rb.simulated = true;
     }
     public void OnTriggerStay2D(Collider2D collision)
     {
@@ -58,7 +61,7 @@ private void Awake()
         {
             //explode.Emit(7);
             gameManager.Instance.bulletAmountEXP += 1;
-
+            buffSFX();
             Destroy(collision.gameObject);
         }
 
@@ -68,7 +71,7 @@ private void Awake()
             //explode.Emit(7);
 
             gameManager.Instance.bulletDamageEXP += 1;
-
+            buffSFX();
             Destroy(collision.gameObject);
         }
 
@@ -77,7 +80,7 @@ private void Awake()
         {
             //explode.Emit(7);
             gameManager.Instance.playerHealth += 1;
-
+            buffSFX();
             Destroy(collision.gameObject);
         }
     }
@@ -85,6 +88,18 @@ private void Awake()
     {
         audioSource.Stop();
         audioSource.clip = hurtSound;
+        audioSource.Play();
+    }
+    public void buffSFX()
+    {
+        audioSource.Stop();
+        audioSource.clip = buffSound;
+        audioSource.Play();
+    }
+    public void deathSFX()
+    {
+        audioSource.Stop();
+        audioSource.clip = deathSound;
         audioSource.Play();
     }
 
@@ -110,6 +125,7 @@ private void Awake()
         } else
         {
             animator.SetBool("Death", true);
+            rb.simulated = false;
         }
         
         if (transform.position.x <= -40f)
@@ -129,13 +145,13 @@ private void Awake()
         }
 
 
-        if (Input.GetMouseButton(0) && shootBullet == false)
+        if (Input.GetMouseButton(0) && shootBullet == false && gameManager.Instance.death == false)
         {
             GameObject.Find("lmbBullet").GetComponent<bulletSpawner>().shootBullet();
             shootBullet = true;
         }
 
-        if (Input.GetMouseButton(1) && shootMissile == false)
+        if (Input.GetMouseButton(1) && shootMissile == false && gameManager.Instance.death == false)
         {
             GameObject.Find("rmbMissile").GetComponent<missileSpawner>().shootMissile();
             shootMissile = true;
