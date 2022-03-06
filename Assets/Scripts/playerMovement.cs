@@ -5,23 +5,23 @@ using DG.Tweening;
 
 public class playerMovement : MonoBehaviour
 {
+    //Player stats
     Vector2 movement;
-
     public float moveSpeed;
-
     public Rigidbody2D rb;
+    public Animator animator;
 
+    //Player bools
     public bool shootBullet;
     public bool shootMissile;
 
-    public Animator animator;
-
+    //Player SFXs
     public AudioSource audioSource;
-
     public AudioClip hurtSound;
     public AudioClip buffSound;
     public AudioClip deathSound;
 
+    //Player particle effect for being hurt
     private ParticleSystem particle;
     public ParticleSystem Particle
     {
@@ -33,24 +33,19 @@ public class playerMovement : MonoBehaviour
 
 private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
-
         moveSpeed = 5.0f;
 
+        rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-
         particle = GetComponent<ParticleSystem>();
-
         audioSource = GetComponent<AudioSource>();
     }
-
-    public float health;
-
 
     // Start is called before the first frame update
     void Start()
     {
         transform.position = new Vector2(0, 0);
+        //Enable movement of the player
         rb.simulated = true;
     }
     public void OnTriggerStay2D(Collider2D collision)
@@ -59,45 +54,46 @@ private void Awake()
         //Increase the maximum bullet amount with amountBuff
         if (collision.gameObject.tag == "amountBuff")
         {
-            //explode.Emit(7);
             gameManager.Instance.bulletAmountEXP += 1;
             buffSFX();
             Destroy(collision.gameObject);
         }
 
-        //Increase the maximum bullet amount with damageBuff
+        //Increase the bullet damage with damageBuff
         if (collision.gameObject.tag == "damageBuff")
         {
-            //explode.Emit(7);
-
             gameManager.Instance.bulletDamageEXP += 1;
             buffSFX();
             Destroy(collision.gameObject);
         }
 
-        //Increase the maximum bullet amount with healthBuff
+        //Increase the health with healthBuff
         if (collision.gameObject.tag == "healthBuff")
         {
-            //explode.Emit(7);
             gameManager.Instance.playerHealth += 1;
             buffSFX();
             Destroy(collision.gameObject);
         }
     }
+    
+    //SFXs
     public void hurtSFX()
     {
+        //Play the player hurt SFX
         audioSource.Stop();
         audioSource.clip = hurtSound;
         audioSource.Play();
     }
     public void buffSFX()
     {
+        //Play the SFX when buffed
         audioSource.Stop();
         audioSource.clip = buffSound;
         audioSource.Play();
     }
     public void deathSFX()
     {
+        //Play the player death SFX
         audioSource.Stop();
         audioSource.clip = deathSound;
         audioSource.Play();
@@ -106,17 +102,20 @@ private void Awake()
     // Update is called once per frame
     void Update()
     {
+        //Basic player movement
         if(gameManager.Instance.death == false)
         {
             movement.x = Input.GetAxisRaw("Horizontal");
             movement.y = Input.GetAxisRaw("Vertical");
 
+            //Help determines the player idle animation
             if (Input.GetAxisRaw("Horizontal") == 1 || Input.GetAxisRaw("Horizontal") == -1 || Input.GetAxisRaw("Vertical") == 1 || Input.GetAxisRaw("Vertical") == -1)
             {
                 animator.SetFloat("lastMoveX", Input.GetAxisRaw("Horizontal"));
                 animator.SetFloat("lastMoveY", Input.GetAxisRaw("Vertical"));
             }
 
+            //Help determines the player walk animation
             animator.SetFloat("Horizontal", movement.x);
             animator.SetFloat("Vertical", movement.y);
             animator.SetFloat("Speed", movement.sqrMagnitude);
@@ -124,10 +123,12 @@ private void Awake()
             rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
         } else
         {
+            //Disable movement of the player
             animator.SetBool("Death", true);
             rb.simulated = false;
         }
         
+        //Player can't go through the borders
         if (transform.position.x <= -40f)
         {
             transform.position = new Vector2(-40f, transform.position.y);
@@ -144,7 +145,7 @@ private void Awake()
             transform.position = new Vector2(transform.position.x, 40f);
         }
 
-
+        //Use LMB and RMB to shoot arcane missiles and cast a magic circle (bullet and missile)
         if (Input.GetMouseButton(0) && shootBullet == false && gameManager.Instance.death == false)
         {
             GameObject.Find("lmbBullet").GetComponent<bulletSpawner>().shootBullet();

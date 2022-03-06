@@ -8,7 +8,6 @@ public class bulletAmountBar : MonoBehaviour
 {
     public Slider slider;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -18,10 +17,12 @@ public class bulletAmountBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Lerps the bullet amount exp bar
         slider.DOValue(gameManager.Instance.bulletAmountEXP / gameManager.Instance.bulletAmountEXPBar, 0.5f);
 
         if (gameManager.Instance.death == true)
         {
+            //Hide this when player is dead
             this.gameObject.SetActive(false);
         }
     }

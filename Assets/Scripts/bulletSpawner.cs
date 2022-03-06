@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class bulletSpawner : MonoBehaviour
 {
+    //Bullet stats
     [SerializeField]
     private GameObject prefabToSpawn = null;
     [SerializeField]
@@ -12,10 +13,6 @@ public class bulletSpawner : MonoBehaviour
     private float spawnTimer;
     [SerializeField]
     private List<GameObject> bullets = new List<GameObject>();
-
-    public AudioSource audioSource;
-
-    public AudioClip bulletSound;
     public List<GameObject> Bullets
     {
         get
@@ -23,9 +20,12 @@ public class bulletSpawner : MonoBehaviour
             return bullets;
         }
     }
-
     public float bulletDamage;
     public float missileDamage;
+
+    //SFX for bullet
+    public AudioSource audioSource;
+    public AudioClip bulletSound;
 
     private void Start()
     {
@@ -42,11 +42,11 @@ public class bulletSpawner : MonoBehaviour
 
     public void bulletSFX()
     {
+        //Play the bullet SFX
         audioSource.Stop();
         audioSource.clip = bulletSound;
         audioSource.Play();
     }
-
 
     public void shootBullet()
     {
@@ -67,6 +67,7 @@ public class bulletSpawner : MonoBehaviour
 
     void Update()
     {
+        //Shoot bullet if there's still bullet not shot
         spawnTimer -= Time.deltaTime;
         while (spawnTimer < 0.0f && gameManager.Instance.death == false)
         {
@@ -75,6 +76,7 @@ public class bulletSpawner : MonoBehaviour
             GameObject.Find("Player").GetComponent<playerMovement>().shootBullet = false;
         }
 
+        //Let bullet "spawn" around the player's chest
         transform.position = new Vector2(GameObject.Find("Player").transform.position.x, GameObject.Find("Player").transform.position.y + 0.4f);
     }
 }

@@ -8,7 +8,6 @@ public class healthBar : MonoBehaviour
 {
     public Slider slider;
 
-
     // Start is called before the first frame update
     void Start()
     {
@@ -18,10 +17,12 @@ public class healthBar : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Lerps the player health bar
         slider.DOValue(gameManager.Instance.playerHealth / 100f, 0.5f);
 
         if(gameManager.Instance.death == true)
         {
+            //Hide this when player is dead
             this.gameObject.SetActive(false);
         }
     }

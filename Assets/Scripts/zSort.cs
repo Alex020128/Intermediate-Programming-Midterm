@@ -14,6 +14,7 @@ public class zSort : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Z-sort the objects
         sr.sortingOrder = -(int)(transform.position.y * 10);
     }
 }

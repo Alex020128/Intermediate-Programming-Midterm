@@ -5,29 +5,28 @@ using DG.Tweening;
 
 public class meleeEnemyMovement : MonoBehaviour
 {
-    private Transform player;
-
+    //Enemy stats
     public float moveSpeed = 2;
-
     public float health;
-
-    private bool bomb;
-
-    private bool dead;
-
+    
+    private Transform player;
     private PolygonCollider2D pc;
     private SpriteRenderer sr;
-
     private ParticleSystem particle;
-
     private Animator animator;
 
+    //Enemy SFXs
     public AudioSource audioSource;
-
     public AudioClip hurtSound;
+    
+    //Enemy bools
+    private bool bomb;
+    private bool dead;
 
+    //Enemy coroutine
     Coroutine deathCoroutine;
 
+    //The three buffs player can get
     [SerializeField]
     private GameObject prefabAmountBuff = null;
     [SerializeField]
@@ -58,7 +57,7 @@ public class meleeEnemyMovement : MonoBehaviour
 
     public void OnCollisionStay2D(Collision2D collision)
     {
-        //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
+        //Decrease player health, emits particle, set player invincible time, trigger sreenshake when hits the player
         if (collision.collider.gameObject.tag == "Player" && gameManager.Instance.invinsible == false && gameManager.Instance.death == false)
         {
            gameManager.Instance.playerHealth -= 2;
@@ -82,7 +81,7 @@ public class meleeEnemyMovement : MonoBehaviour
             collision.gameObject.SetActive(false);
         }
 
-        //Decrease health, emit particle, trigger sreenshake when gets hit by missiles
+        //Decrease health, emit particle, trigger sreenshake when gets hit by missile
         if (collision.gameObject.tag == "Missile" && bomb == false)
         {
             this.health -= gameManager.Instance.missileDamage;
@@ -94,6 +93,7 @@ public class meleeEnemyMovement : MonoBehaviour
     }
     public void hurtSFX()
     {
+        //Play the enemy hurt SFX
         audioSource.Stop();
         audioSource.clip = hurtSound;
         audioSource.Play();
@@ -101,6 +101,7 @@ public class meleeEnemyMovement : MonoBehaviour
 
     private IEnumerator deathExplode(float wait)
     {
+        //Make sure that the death particle will be shown
         yield return new WaitForSeconds(wait);
         scoreManager.Instance.meleeEnemyKills += 1;
         Destroy(this.gameObject);
@@ -109,6 +110,7 @@ public class meleeEnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //Chases the player
         if (dead == false)
         {
             transform.position = Vector2.MoveTowards(this.transform.position, player.position, moveSpeed * Time.deltaTime);
@@ -116,11 +118,13 @@ public class meleeEnemyMovement : MonoBehaviour
 
         bomb = false;
 
-        if(health <= 0 && dead == false)
+        //Determines whether a buff is dropped when dead
+        if (health <= 0 && dead == false)
         {
             int chance = Random.Range(0, 100);
             if (chance <= 15)
             {
+                //Instantiate an amount buff
                 Instantiate(prefabAmountBuff, transform.position, Quaternion.identity);
                 pc.enabled = false;
                 sr.enabled = false;
@@ -130,6 +134,7 @@ public class meleeEnemyMovement : MonoBehaviour
             }
             else if (chance > 15 && chance <= 30)
             {
+                //Instantiate a damage buff
                 Instantiate(prefabDamageBuff, transform.position, Quaternion.identity);
                 pc.enabled = false;
                 sr.enabled = false;
@@ -139,6 +144,7 @@ public class meleeEnemyMovement : MonoBehaviour
             }
             else if (chance > 30 && chance <= 50)
             {
+                //Instantiate a health buff
                 Instantiate(prefabHealthBuff, transform.position, Quaternion.identity);
                 pc.enabled = false;
                 sr.enabled = false;
@@ -147,6 +153,7 @@ public class meleeEnemyMovement : MonoBehaviour
                 dead = true;
             } else
             {
+                //Instantiate nothing
                 pc.enabled = false;
                 sr.enabled = false;
                 deathCoroutine = StartCoroutine(deathExplode(0.5f));

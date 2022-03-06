@@ -5,40 +5,38 @@ using DG.Tweening;
 
 public class rangeEnemyMovement : MonoBehaviour
 {
+    //Enemy stats
     public float moveSpeed;
     public float shootingRange;
     public float fireRate = 3.0f;
     private float nextFireTime;
-    //public Animator animator;
+    public float health;
 
     public GameObject bulletParent;
     private Transform player;
-    //public Rigidbody2D rb;
+    private PolygonCollider2D pc;
+    private SpriteRenderer sr;
+    private ParticleSystem particle;
+    private Animator animator;
 
+    //Enemy bullets
     [SerializeField]
     private GameObject prefabToSpawn = null;
     [SerializeField]
     private GameObject[] bullets = new GameObject[5];
 
-    public float health;
-
+    //Enemy bools
     private bool bomb;
-    
     private bool dead;
 
-    private PolygonCollider2D pc;
-    private SpriteRenderer sr;
-
-    private ParticleSystem particle;
-
-    private Animator animator;
-    
+    //Enemy SFXs
     public AudioSource audioSource;
-
     public AudioClip hurtSound;
 
+    //Enemy coroutine
     Coroutine deathCoroutine;
 
+    //The three buffs player can get
     [SerializeField]
     private GameObject prefabAmountBuff = null;
     [SerializeField]
@@ -46,17 +44,12 @@ public class rangeEnemyMovement : MonoBehaviour
     [SerializeField]
     private GameObject prefabHealthBuff = null;
 
-    //public AudioSource audioSource;
-
-    //public AudioClip hurtSound;
-
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player").transform;
-        //audioSource = GetComponent<AudioSource>();
 
-        //Spawn a pool of bullets at top of the screen
+        //Spawn a pool of enemy bullets
         for (int i = 0; i < bullets.Length; i++)
         {
             GameObject newBullet = Instantiate(prefabToSpawn, transform.position, Quaternion.identity, bulletParent.transform);
@@ -64,6 +57,7 @@ public class rangeEnemyMovement : MonoBehaviour
             bullets[i].SetActive(false);
         }
 
+        //The health of the enemy increases over time
         health = timeManager.Instance.rangeEnemyHealth;
 
         bomb = false;
@@ -79,6 +73,7 @@ public class rangeEnemyMovement : MonoBehaviour
         sr.enabled = true;
     }
 
+    //Show gizmos of the shoot bullet range
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
@@ -87,6 +82,7 @@ public class rangeEnemyMovement : MonoBehaviour
 
     public void hurtSFX()
     {
+        //Play the enemy hurt SFX
         audioSource.Stop();
         audioSource.clip = hurtSound;
         audioSource.Play();
@@ -94,7 +90,7 @@ public class rangeEnemyMovement : MonoBehaviour
 
     public void shootBullet()
     {
-        //let one of the waiting bullets to be active
+        //let one of the waiting enemy bullets to be active
         for (int i = 0; i < bullets.Length; i++)
         {
             if (!bullets[i].activeInHierarchy)
@@ -110,7 +106,7 @@ public class rangeEnemyMovement : MonoBehaviour
 
     public void OnCollisionStay2D(Collision2D collision)
     {
-        //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
+        //Decrease player health, emits particle, set player invincible time, trigger sreenshake when hits the player
         if (collision.collider.gameObject.tag == "Player" && gameManager.Instance.invinsible == false && gameManager.Instance.death == false)
         {
             gameManager.Instance.playerHealth -= 1;
@@ -134,7 +130,7 @@ public class rangeEnemyMovement : MonoBehaviour
             collision.gameObject.SetActive(false);
         }
 
-        //Decrease health, emit particle, trigger sreenshake when gets hit by missiles
+        //Decrease health, emit particle, trigger sreenshake when gets hit by missile
         if (collision.gameObject.tag == "Missile" && bomb == false)
         {
             this.health -= gameManager.Instance.missileDamage;
@@ -146,6 +142,7 @@ public class rangeEnemyMovement : MonoBehaviour
     }
     private IEnumerator deathExplode(float wait)
     {
+        //Make sure that the death particle will be shown
         yield return new WaitForSeconds(wait);
         scoreManager.Instance.rangeEnemyKills += 1;
         Destroy(this.gameObject);
@@ -156,9 +153,9 @@ public class rangeEnemyMovement : MonoBehaviour
     {
         bomb = false;
 
-        //string clipName = animator.GetCurrentAnimatorClipInfo(0)[0].clip.name;
         if (dead == false)
         {
+            //Shoot the player when player is inside the shoot range, otherwise chases the player
             float distanceFromPlayer = Vector2.Distance(player.position, transform.position);
             if (distanceFromPlayer > shootingRange)
             {
@@ -171,11 +168,14 @@ public class rangeEnemyMovement : MonoBehaviour
             }
         }
 
+        //Determines whether a buff is dropped when dead
         if (health <= 0 && dead == false)
         {
             int chance = Random.Range(0, 100);
             if (chance <= 15)
             {
+                //Instantiate an amount buff
+                Instantiate(prefabAmountBuff, transform.position, Quaternion.identity);
                 pc.enabled = false;
                 sr.enabled = false;
                 deathCoroutine = StartCoroutine(deathExplode(0.5f));
@@ -184,6 +184,8 @@ public class rangeEnemyMovement : MonoBehaviour
             }
             else if (chance > 15 && chance <= 30)
             {
+                //Instantiate a damage buff
+                Instantiate(prefabDamageBuff, transform.position, Quaternion.identity);
                 pc.enabled = false;
                 sr.enabled = false;
                 deathCoroutine = StartCoroutine(deathExplode(0.5f));
@@ -192,6 +194,8 @@ public class rangeEnemyMovement : MonoBehaviour
             }
             else if (chance > 30 && chance <= 50)
             {
+                //Instantiate a health buff
+                Instantiate(prefabHealthBuff, transform.position, Quaternion.identity);
                 pc.enabled = false;
                 sr.enabled = false;
                 deathCoroutine = StartCoroutine(deathExplode(0.5f));
@@ -200,6 +204,7 @@ public class rangeEnemyMovement : MonoBehaviour
             }
             else
             {
+                //Instantiate nothing
                 pc.enabled = false;
                 sr.enabled = false;
                 deathCoroutine = StartCoroutine(deathExplode(0.5f));

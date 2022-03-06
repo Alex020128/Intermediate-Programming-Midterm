@@ -6,21 +6,24 @@ using UnityEngine.SceneManagement;
 
 public class gameManager : Singleton<gameManager>
 {
+    //Player bullet
     [SerializeField]
     private GameObject prefabToSpawn = null;
 
+    //Player stats
     public int playerHealth;
+    public TMP_Text health; //UI text
 
-    public TMP_Text health;
-
+    //Player bools
     public bool death = false;
-
     public bool invinsible = false;
 
+    //Player invincible timer
     public float invinsibleTime;
-
+    
+    //Player stats that can grow as more buffs are collected
     public float missileCoolDownTime;
-
+    
     public float bulletDamage;
     public float missileDamage;
 
@@ -30,19 +33,19 @@ public class gameManager : Singleton<gameManager>
     public float bulletDamageEXPBar;
     public float bulletAmountEXPBar;
 
+    //Background music loop
     public AudioSource audioSource;
-
     public AudioClip musicLoop;
 
     void Awake()
     {
-        playerHealth = 100;
         name = "GameManager"; // Set name of object
+        
         health = GetComponent<TMP_Text>();
         audioSource = GetComponent<AudioSource>();
 
+        playerHealth = 100;
         invinsibleTime = 0;
-
         missileCoolDownTime = 10;
 
         bulletDamage = 1;
@@ -56,13 +59,14 @@ public class gameManager : Singleton<gameManager>
 
     private void Start()
     {
+        //Loops the music
         audioSource.clip = musicLoop;
         audioSource.Play();
     }
 
-
     void Update()
     {
+        //The player has 1s of invincible time if gets hurt
         if (invinsible == true)
         {
             invinsibleTime += Time.deltaTime;
@@ -81,27 +85,30 @@ public class gameManager : Singleton<gameManager>
             health.enabled = false;
         }
 
-
+        //Player death
         if (playerHealth <= 0)
         {
-            //Display total time lasted and instruction for restart
             death = true;
         }
 
+        //Player's health can't be over 100
         if(playerHealth > 100)
         {
             playerHealth = 100;
         }
 
+        //Missile's damage (RMB) is dependent on both the bullet damage and the bullet amount
         missileDamage = Mathf.Floor(0.5f * (bulletDamage * GameObject.Find("lmbBullet").GetComponent<bulletSpawner>().Bullets.Count));
 
+        //Increases bullet damage by 1 if the exp bar is filled, increases the exp required for next levelup by 1 as well
         if (bulletDamageEXP == bulletDamageEXPBar)
         {
             bulletDamage += 1;
             bulletDamageEXP = 0;
             bulletDamageEXPBar += 1;
         }
-
+        
+        //Increases bullet amount by 1 if the exp bar is filled, increases the exp required for next levelup by 1 as well
         if (bulletAmountEXP == bulletAmountEXPBar)
         {
             GameObject newBullet = Instantiate(prefabToSpawn, GameObject.Find("lmbBullet").transform.position, Quaternion.identity, GameObject.Find("lmbBullet").transform);

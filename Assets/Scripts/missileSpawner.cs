@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class missileSpawner : MonoBehaviour
 {
+    //Missile stats
     [SerializeField]
     private GameObject prefabToSpawn = null;
     [SerializeField]
@@ -22,7 +23,7 @@ public class missileSpawner : MonoBehaviour
 
     private void Start()
     {
-        //Spawn one missile at top of the screen
+        //Spawn one missile
         for (int i = 0; i < 1; i++)
         {
             GameObject newMissile = Instantiate(prefabToSpawn, transform.position, Quaternion.identity, this.gameObject.transform);
@@ -33,7 +34,7 @@ public class missileSpawner : MonoBehaviour
 
     public void shootMissile()
     {
-        //let one of the waiting bullets to be active
+        //Activate the missile
         for (int i = 0; i < missiles.Count; i++)
         {
             if (!missiles[i].activeInHierarchy)
@@ -53,13 +54,16 @@ public class missileSpawner : MonoBehaviour
 
     void Update()
     {
+        //This is the cool down time of missile
         spawnPerSecond = gameManager.Instance.missileCoolDownTime;
 
+        //The minimum cool down time for missile
         if(spawnPerSecond < 1)
         {
             spawnPerSecond = 1;
         }
         
+        //Cast magic circle when pressed RMB
         spawnTimer -= Time.deltaTime;
         while (spawnTimer < 0.0f && gameManager.Instance.death == false)
         {

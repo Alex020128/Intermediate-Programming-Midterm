@@ -5,17 +5,16 @@ using DG.Tweening;
 
 public class enemyBullet : MonoBehaviour
 {
+    //Enemy bullet stats
     [SerializeField]
     public float turnSpeed = 360; // degrees per second
     [SerializeField]
     public float lifeTimer;
     public float moveSpeed = 10;
 
+    //Target position
     public Vector3 targetRotation;
-
     public Transform player;
-
-
 
     private void Awake()
     {
@@ -29,7 +28,7 @@ public class enemyBullet : MonoBehaviour
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
-        //Decrease health, emit particle, trigger sreenshake when gets hit by bullets
+        //Decrease player health, emits particle, set player invincible time, trigger sreenshake when hits the player
         if (collision.gameObject.tag == "playerArea" && gameManager.Instance.invinsible == false && gameManager.Instance.death == false)
         {
             gameManager.Instance.playerHealth -= 1;
@@ -41,16 +40,13 @@ public class enemyBullet : MonoBehaviour
             gameManager.Instance.invinsible = true;
             this.gameObject.SetActive(false);
         }
-
     }
 
     // Update is called once per frame
     void Update()
     {
-
-
+        //The bullet can't fly forever, so a lifetimer is set
         lifeTimer -= Time.deltaTime;
-
 
         if (lifeTimer <= 2.5f)
         {
@@ -59,12 +55,12 @@ public class enemyBullet : MonoBehaviour
             transform.parent = null;
             if (lifeTimer <= 0)
             {
+                //Set the bullet to inactive
                 this.gameObject.SetActive(false);
             }
         }
         else
         {
-
             //Sets the rotation of the bullet towards the player
             Vector3 playerPosition = player.position;
             Vector2 direction = playerPosition - transform.position;
@@ -72,6 +68,7 @@ public class enemyBullet : MonoBehaviour
             targetRotation = new Vector3(0, 0, angle);
             transform.rotation = Quaternion.Euler(targetRotation);
 
+            //Let the bullet starts from the player
             transform.localPosition = new Vector3(0, 0, 0);
         }
     }
